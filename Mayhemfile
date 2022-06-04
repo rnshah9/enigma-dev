@@ -1,0 +1,11 @@
+project: enigma-dev
+target: enigma-dev
+image: ghcr.io/rnshah9/playground:enigma-dev
+testsuite:
+  - file://CommandLine/testing/SimpleTests/gm530.gmd
+
+cmds:
+  - cmd: /repo/gm2egm @@ out.egm
+    max_length: 800000
+    env:
+      DISABLE_SMOKETEST: '1'

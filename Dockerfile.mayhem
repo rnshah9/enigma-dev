@@ -1,0 +1,16 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y vim less file locate && echo 'alias locate="updatedb && locate"' >> ~/.bashrc
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget git gcc-9 g++-9 make build-essential libprotobuf-dev protobuf-compiler protobuf-compiler-grpc libgrpc-dev libgrpc++-dev zlib1g-dev libglew-dev libglm-dev libpng-dev libglu1-mesa-dev libopenal-dev libfluidsynth-dev libogg-dev libalure-dev libvorbisfile3 libvorbis-dev libbox2d-dev libdumb1-dev libsdl2-dev libfreetype6-dev libffi-dev libx11-dev libxrandr-dev libxinerama-dev libepoxy-dev default-jre default-jdk pkg-config rapidjson-dev libyaml-cpp-dev libboost-dev libboost-filesystem-dev libboost-system-dev libboost-program-options-dev libboost-iostreams-dev pulseaudio libpugixml-dev zenity kdialog curl
+
+COPY . /repo
+WORKDIR /repo
+RUN make -j8
+
+WORKDIR /repo/CommandLine/libEGM
+RUN make -j8
+WORKDIR /repo/CommandLine/gm2egm
+RUN make -j8
+ENV LD_LIBRARY_PATH=/repo
